@@ -475,28 +475,28 @@ function loadModel(modelPath, format) {
     // Update loading text
     const loadingText = document.getElementById('loading-text');
     
-    let loader;
-    
-    // Select the appropriate loader based on file format
-    switch(format.toLowerCase()) {
-        case 'fbx':
-            loader = new THREE.FBXLoader();
-            break;
-        case 'glb':
-        case 'gltf':
-            loader = new THREE.GLTFLoader();
-            break;
-        default:
-            console.error('Unsupported file format:', format);
-            if (loadingIndicator) loadingIndicator.remove();
-            showErrorMessage(`Unsupported file format: ${format}`);
-            return;
-    }
-    
-    // Load the model
-    loader.load(
-        modelPath,
-        function (object) {
+    // First fetch the model file
+    fetch(modelPath)
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+            let loader;
+            
+            // Select the appropriate loader based on file format
+            switch(format.toLowerCase()) {
+                case 'fbx':
+                    loader = new THREE.FBXLoader();
+                    break;
+                case 'glb':
+                case 'gltf':
+                    loader = new THREE.GLTFLoader();
+                    break;
+                default:
+                    throw new Error(`Unsupported file format: ${format}`);
+            }
+            
+            // Load from the fetched buffer
+            const object = loader.parse(buffer, '');
+            
             // For GLB/GLTF models, the object is different than for FBX
             if (format.toLowerCase() === 'glb' || format.toLowerCase() === 'gltf') {
                 currentModel = object.scene;
@@ -590,15 +590,8 @@ function loadModel(modelPath, format) {
             
             // Remove loading indicator
             if (loadingIndicator) loadingIndicator.remove();
-        },
-        function (xhr) {
-            // Progress indicator
-            if (xhr.lengthComputable) {
-                const percentComplete = Math.round((xhr.loaded / xhr.total) * 100);
-                if (loadingText) loadingText.textContent = `Loading... ${percentComplete}%`;
-            }
-        },
-        function (error) {
+        })
+        .catch(error => {
             console.error('Error loading model:', error);
             console.error('Failed to load:', modelPath);
             
@@ -607,8 +600,7 @@ function loadModel(modelPath, format) {
             
             // Show error message
             showErrorMessage(`Failed to load model: ${modelPath}`);
-        }
-    );
+        });
 }
 
 // Show error message in the viewer
