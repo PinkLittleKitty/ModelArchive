@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Archive</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Add Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <!-- OrbitControls for camera manipulation -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <!-- GLTFLoader for loading 3D models -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- FBXLoader for loading FBX models -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/FBXLoader.js"></script>
+    <!-- Required for FBX loading -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/fflate.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Model Archive</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="sidebar">
+                <h2>Model Library</h2>
+                <p class="filter-controls">
+                    <input type="text" id="search" placeholder="Search models...">
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="characters">Characters</option>
+                        <option value="props">Props</option>
+                    </select>
+                </p>
+                <ul id="model-list" class="model-list">
+                    <!-- Model list will be populated by JavaScript -->
+                </ul>
+            </div>
+>
+            <div class="viewer-container">
+                <div id="model-viewer">
+                    <!-- Corner elements for visual cues -->
+                    <div class="corner-top-right"></div>
+                    <div class="corner-bottom-left"></div>
+                    <!-- Loading indicator will be added by JavaScript -->
+                </div>
+                <div id="view-controls">
+                    <button data-view="normal" class="view-btn active">Normal</button>
+                    <button data-view="wireframe" class="view-btn">Wireframe</button>
+                    <button data-view="flat" class="view-btn">Flat</button>
+                    <button data-view="normals" class="view-btn">Normals</button>
+                    <button data-view="xray" class="view-btn">Spoooooky</button>
+                </div>
+                <div id="model-info">
+                    <h2 id="model-title">Select a model</h2>
+                    <p id="model-description">Select a model from the library to view details and 3D preview.</p>
+                    <div id="model-metadata">
+                        <p><strong>Date:</strong> <span id="model-date">-</span></p>
+                        <p><strong>Category:</strong> <span id="model-category">-</span></p>
+                        <p><strong>Polygons:</strong> <span id="model-polygons">-</span></p>
+                        <p><strong>Format:</strong> <span id="model-format">-</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
